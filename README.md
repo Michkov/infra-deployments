@@ -129,16 +129,16 @@ There is a development configuration in `overlays/development` which includes a 
 The script also supports branches automatically. If you work in a checked out branch, each of the components in the overlays will mapped to that branch by setting `targetRevision:`.  
 
 Steps:
-1) in your forked repository run `./hack/development-mode.sh` and this will update the root application on the cluster and all of the git repo references in `argo-cd-apps/overlays/development/repo-overlay.yaml`
-2) you will need to push the updated references in `argo-cd-apps/overlays/development/repo-overlay.yaml` to your fork. Argo will now sync all the changes from your fork into the cluster
-3) You can now make changes to your forked repository and test them via the gitops
+1) Copy `hack/development-mode-template.env` to `hack/development-mode.env` and update new file based on instructions. File `hack/development-mode.env` should never be included in commit.
+2) Work on your changes in a feature branch
+3) Run `./hack/development-mode.sh`, which will do:
+  a) New branch is created from your current branch, the name of new branch is `preview-<name-of-current-branch>`
+  b) Commit with changes related to your environment is added into preview branch
+  c) Preview branch is pushed into your fork
+  d) ArgoCD is set to point to your fork and the preview branch
+  e) User is switched back to feature branch to create additional changes
 
-4) To submit changes back to the upstream make sure you do not include the modified file `argo-cd-apps/overlays/development/repo-overlay.yaml`. 
-
-One option to prevent accidentally including this modified file, you can run the script `./hack/upstream-mode.sh` to reset everything including your cluster to `https://github.com/redhat-appstudio/infra-deployments.git` and match the upstream config. You can also checkout the current upstream 
-` git fetch upstream; git checkout upstream/main -- argo-cd-apps/overlays/development/repo-overlay.yaml` to ensure you have the original file.  
-
-After you commit your changes you can rerun to `./hack/development-mode.sh` and reset your repo to point back to the fork. 
+If you want to reset your enviroment you can run the script `./hack/upstream-mode.sh` to reset everything including your cluster to `https://github.com/redhat-appstudio/infra-deployments.git` and match the upstream config.
 
 Note running these scripts in a clone repo will have no effect as the repo will remain `https://github.com/redhat-appstudio/infra-deployments.git`
 
@@ -153,13 +153,11 @@ Steps:
 2) Create user token with permissions:
     - `repo`
     - `delete_repo`
-3) Set environment variables:
+3) Set environment variables via `hack/development-mode.env`:
     - `MY_GITHUB_ORG`
     - `MY_GITHUB_TOKEN`
 4) Run `./hack/development-mode.sh`
-5) Push changes, trigger update in ArgoCD and delete `application-service-controller-manager` pod manually or run `oc rollout restart -n application-service deployment/application-service-controller-manager`
-
-Do not include GitHub Organization change in merge requests. You can reset organization back by running `./hack/util-set-github-org` without arguments. `./hack/upstream-mode.sh` also resets organization.
+5) Trigger update in ArgoCD and delete `application-service-controller-manager` pod manually or run `oc rollout restart -n application-service deployment/application-service-controller-manager`
 
 # App Studio Build System
 
