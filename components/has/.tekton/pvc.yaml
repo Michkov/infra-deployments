@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -8,3 +9,26 @@ spec:
   resources:
     requests:
       storage: 1Gi
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bind-volume
+spec:
+  selector: {}
+  template:
+    metadata:
+      name: bind-volume
+    spec:
+      containers:
+        - name: bind-volume
+          image: registry.access.redhat.com/ubi8/ubi-minimal:latest
+          volumeMounts:
+            - name: bind
+              mountPath: /test
+      restartPolicy: Never
+      volumes:
+        - name: bind
+          persistentVolumeClaim:
+              claimName: app-studio-default-workspace
