@@ -10,12 +10,12 @@ kind: Kustomization
 
 images:
 - name: quay.io/redhat-appstudio/application-service
-  newName: quay.io/redhat-appstudio/application-service
-  newTag: 46684055dc75b2e05899d8d38cf209de17460ace
+  newName: quay.io/mkovarik/application-service
+  newTag: PLNSRVCE-46
 
 configMapGenerator:
 - literals:
-  - GITHUB_ORG=""
+  - GITHUB_ORG="Michkov-test"
   name: github-config
   behavior: replace
 
