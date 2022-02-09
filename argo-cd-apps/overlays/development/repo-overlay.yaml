@@ -5,7 +5,7 @@ metadata:
 spec:
   source: # This will be replaced with a reference to your fork of this repo (see hack/patch-apps-for-dev.sh)
     repoURL: https://github.com/Michkov/infra-deployments.git
-    targetRevision: preview-my/development-mode
+    targetRevision: preview-preview-my/development-mode
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -14,7 +14,7 @@ metadata:
 spec:
   source:
     repoURL: https://github.com/Michkov/infra-deployments.git
-    targetRevision: preview-my/development-mode
+    targetRevision: preview-preview-my/development-mode
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -23,7 +23,7 @@ metadata:
 spec:
   source:
     repoURL: https://github.com/Michkov/infra-deployments.git
-    targetRevision: preview-my/development-mode
+    targetRevision: preview-preview-my/development-mode
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -32,4 +32,4 @@ metadata:
 spec:
   source:
     repoURL: https://github.com/Michkov/infra-deployments.git
-    targetRevision: preview-my/development-mode
+    targetRevision: preview-preview-my/development-mode
