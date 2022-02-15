@@ -4,3 +4,15 @@ kind: Application
 metadata:
   name: authentication
 $patch: delete
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: has
+$patch: delete
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spi
+$patch: delete
