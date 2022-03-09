@@ -62,15 +62,54 @@ spec:
                     workingDir: $(workspaces.source.path)
                     script: |
                       #!/usr/bin/env bash
-                      MY_QUAY_USER=redhat-appstudio BUILD_TAG=$(params.revision) SKIP_BUILD=1 SKIP_INSTALL=1 hack/build-and-push.sh
+                      MY_QUAY_USER=mkovarik BUILD_TAG=$(params.revision) SKIP_BUILD=1 SKIP_INSTALL=1 hack/build-and-push.sh
+            - name: update-infra-repo
+              runAfter:
+                - build-bundles
+              params:
+                - name: BASE_IMAGE
+                  value: registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:af7dd5b3b1598a980f17d5f5d3d8a4b11ab4f5184677f7f17ad302baa36bd3c1
+                - name: GIT_USER_NAME
+                  value: Build deployer
+                - name: GIT_SCRIPT
+                  value: |
+                    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+                    git clone https://github.com/redhat-appstudio/infra-deployments
+                    cd infra-deployments
+                    git remote add push git@github.com:Michkov/infra-deployments.git
+                    git checkout -b build-definitions-update
+                    BUNDLE=quay.io/redhat-appstudio/build-templates-bundle
+                    for file in $(git grep -l $BUNDLE); do
+                      sed -i "s|\($BUNDLE\):.*|\1:$(params.revision)|g" $file
+                    done
+                    git commit -a -m "Build definitions update" -m "from $(params.git-url) $(params.revision)"
+                    git push -f --set-upstream push build-definitions-update
+
+                    #set +x
+                    curl -H "Authorization: token $(cat /root/.ssh/token)" \
+                      -X POST \
+                      -H "Accept: application/vnd.github.v3+json" \
+                      https://api.github.com/repos/redhat-appstudio/infra-deployments/pulls \
+                      -d '{"head":"Michkov:build-definitions-update","base":"main","title":"Build definitions update"}'
+              taskRef:
+                kind: ClusterTask
+                name: git-cli
+              workspaces:
+                - name: source
+                  workspace: workspace
+                - name: ssh-directory
+                  workspace: deploy-key
           workspaces:
             - name: workspace
+            - name: deploy-key
         workspaces:
           - name: workspace
             persistentVolumeClaim:
               claimName: app-studio-default-workspace
             subPath: application-service-$(tt.params.git-revision)
-
+          - name: deploy-key
+            secret:
+              secretName: build-definitions-deploy-key
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
@@ -82,7 +121,7 @@ spec:
           - name: revision
             value: $(tt.params.git-revision)
           - name: output-image
-            value: 'quay.io/redhat-appstudio/appstudio-utils:$(tt.params.git-revision)'
+            value: 'quay.io/redhat-appstudio/mkovarik:$(tt.params.git-revision)'
           - name: path-context
             value: appstudio-utils
         pipelineRef:
