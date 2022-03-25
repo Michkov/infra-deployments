@@ -2,6 +2,8 @@
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/..
 
+OVERLAY=$1
+
 if [ -f $ROOT/hack/preview.env ]; then
     source $ROOT/hack/preview.env
 fi
@@ -36,9 +38,15 @@ git checkout -b $PREVIEW_BRANCH
 # this needs to be pushed to your fork to be seen by argocd
 $ROOT/hack/util-set-development-repos.sh $MY_GIT_REPO_URL development $PREVIEW_BRANCH
 
+
 # set the API server which SPI uses to authenticate users to empty string (by default) so that multi-cluster
 # setup is not needed
 $ROOT/hack/util-set-spi-api-server.sh "$SPI_API_SERVER"
+
+if [ -n "$OVERLAY" ]; then
+    echo "Configuring E2E overlay"
+    $ROOT/hack/util-set-development-repos.sh $MY_GIT_REPO_URL $OVERLAY $PREVIEW_BRANCH
+fi
 
 if [ -n "$MY_GITHUB_ORG" ]; then
     $ROOT/hack/util-set-github-org $MY_GITHUB_ORG
@@ -82,4 +90,4 @@ fi
 git checkout $MY_GIT_BRANCH
 
 #set the local cluster to point to the current git repo and branch and update the path to development
-$ROOT/hack/util-update-app-of-apps.sh $MY_GIT_REPO_URL development $PREVIEW_BRANCH
+$ROOT/hack/util-update-app-of-apps.sh $MY_GIT_REPO_URL $OVERLAY $PREVIEW_BRANCH

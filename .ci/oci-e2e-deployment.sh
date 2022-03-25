@@ -99,7 +99,33 @@ createQuayPullSecrets
 
 git remote add ${MY_GIT_FORK_REMOTE} https://github.com/redhat-appstudio-qe/infra-deployments.git
 
-/bin/bash "$WORKSPACE"/hack/bootstrap-cluster.sh preview
+# Install sandbox operators
+/bin/bash "$WORKSPACE"/hack/sandbox-development-mode.sh
+
+# Patch sandbox config to use provided keycloak
+BASE_URL=$(oc get ingresses.config.openshift.io/cluster -o jsonpath={.spec.domain})
+RHSSO_URL="https://keycloak-appstudio-sso.$BASE_URL"
+
+oc patch ToolchainConfig/config -n toolchain-host-operator --type=merge --patch-file=/dev/stdin << EOF
+spec:
+  host:
+    registrationService:
+      auth:
+        authClientConfigRaw: '{
+                  "realm": "testrealm",
+                  "auth-server-url": "$RHSSO_URL/auth",
+                  "ssl-required": "nones",
+                  "resource": "sandbox-public",
+                  "clientId": "sandbox-public",
+                  "public-client": true
+                }'
+        authClientLibraryURL: $RHSSO_URL/auth/js/keycloak.js
+        authClientPublicKeysURL: $RHSSO_URL/auth/realms/testrealm/protocol/openid-connect/certs
+EOF
+
+#Install AppStudio
+/bin/bash "$WORKSPACE"/hack/bootstrap-cluster.sh e2e
+
 
 export -f waitAppStudioToBeReady
 export -f waitBuildToBeReady
@@ -107,6 +133,10 @@ export -f checkHASGithubOrg
 
 timeout --foreground 10m bash -c waitAppStudioToBeReady
 timeout --foreground 10m bash -c waitBuildToBeReady
+
+## Delete reg service deployment to restart it and download certs from keycloak.
+oc delete deployment/registration-service -n toolchain-host-operator
+
 # Just a sleep before starting the tests
 sleep 2m
 timeout --foreground 3m bash -c checkHASGithubOrg
