@@ -6,7 +6,6 @@ metadata:
   name: gitops-service-argocd
   namespace: gitops-service-argocd
 spec:
-
   resourceInclusions: |
     - apiGroups:
       - ""
