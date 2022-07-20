@@ -11,7 +11,7 @@ export APPLICATION_NAME="all-components-staging"
 
 export TEST_BRANCH_ID=$(date +%s)
 export MY_GIT_FORK_REMOTE="qe"
-export MY_GITHUB_ORG="redhat-appstudio-qe"
+export MY_GITHUB_ORG="Michkov-test"
 export MY_GITHUB_TOKEN="${GITHUB_TOKEN}"
 export E2E_APPLICATIONS_NAMESPACE=appstudio-e2e-test
 
@@ -19,7 +19,7 @@ export E2E_APPLICATIONS_NAMESPACE=appstudio-e2e-test
 # https://github.com/redhat-appstudio/application-service/blob/6b9d21b8f835263b2e92f1e9343a1453caa2e561/gitops/generate_build.go#L50
 # Users are allowed to push images to this repo only in case the image contains a tag that consists of "<USER'S_NAMESPACE_NAME>-<CUSTOM-TAG>"
 # For example: "quay.io/redhat-appstudio-qe/test-images-protected:appstudio-e2e-test-mytag123"
-export HAS_DEFAULT_IMAGE_REPOSITORY="quay.io/redhat-appstudio-qe/test-images-protected"
+export HAS_DEFAULT_IMAGE_REPOSITORY="quay.io/mkovarik/test-images-protected"
 
 
 export PATH=$PATH:/tmp/bin
@@ -49,7 +49,7 @@ function catchFinish() {
     fi
 
     MY_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    git push $MY_GIT_FORK_REMOTE --delete preview-${MY_GIT_BRANCH}-${TEST_BRANCH_ID}
+#    git push $MY_GIT_FORK_REMOTE --delete preview-${MY_GIT_BRANCH}-${TEST_BRANCH_ID}
 
     exit $JOB_EXIT_CODE
 }
@@ -124,14 +124,14 @@ function prepareWebhookVariables() {
     curl https://raw.githubusercontent.com/redhat-appstudio/e2e-tests/main/webhookConfig.yml | envsubst > webhookConfig.yml
 }
 
-installCITools
-createQuayPullSecrets
+#installCITools
+#createQuayPullSecrets
 
-git remote add ${MY_GIT_FORK_REMOTE} https://github.com/redhat-appstudio-qe/infra-deployments.git
+git remote add ${MY_GIT_FORK_REMOTE} https://github.com/Michkov/infra-deployments.git
 
 # Initiate openshift ci users
 export KUBECONFIG_TEST="/tmp/kubeconfig"
-curl https://raw.githubusercontent.com/redhat-appstudio/e2e-tests/main/scripts/provision-openshift-user.sh | bash -s
+#curl https://raw.githubusercontent.com/redhat-appstudio/e2e-tests/main/scripts/provision-openshift-user.sh | bash -s
 export KUBECONFIG="${KUBECONFIG_TEST}"
 
 /bin/bash "$WORKSPACE"/hack/bootstrap-cluster.sh preview

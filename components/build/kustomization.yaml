@@ -18,7 +18,7 @@ configMapGenerator:
 - name: build-pipelines-defaults
   namespace: build-templates
   literals:
-  - default_build_bundle=quay.io/redhat-appstudio/pull-request-builds:base-671f833e488d2b38b4e14d8248d58eb1b58ebdac
+  - default_build_bundle=quay.io/redhat-appstudio/pull-request-builds:base-14e2132507f9d2ce9f3b426936f6f65e2b12876d
 
 # Skip applying the Tekton operands while the Tekton operator is being installed.
 # See more information about this option, here:
