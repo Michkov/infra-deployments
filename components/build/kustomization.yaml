@@ -9,6 +9,7 @@ resources:
 - build-service/
 - shared-resources
 - jvm-build-service/
+- namespace.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
