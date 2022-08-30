@@ -7,8 +7,8 @@ namespace: build-service
 
 images:
 - name: quay.io/redhat-appstudio/build-service
-  newName: quay.io/redhat-appstudio/build-service
-  newTag: 67eda581354ab640cffdf07265abf668892fcde0
+  newName: quay.io/redhat-appstudio/pull-request-builds
+  newTag: buildserv-f345b67b620524c18c74b80cfe7ae3d09151a9ac
 
 
 apiVersion: kustomize.config.k8s.io/v1beta1
