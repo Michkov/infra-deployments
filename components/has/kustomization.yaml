@@ -1,5 +1,6 @@
 resources:
 - https://github.com/redhat-appstudio/application-service/config/kcp?ref=67465f8dece31cde03e3c55d5adc35f21abf4de6
+- api-exports-access.yaml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -19,3 +20,4 @@ namespace: application-service
 
 patches:
   - ./manager_resources_patch.yaml
+  - ./export_patch.yaml

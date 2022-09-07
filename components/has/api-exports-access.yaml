@@ -1,0 +1,40 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+  labels:
+    app.kubernetes.io/instance: dev-has
+  name: api-exports-access
+rules:
+- apiGroups:
+  - apis.kcp.dev
+  resources:
+  - apiexports
+  verbs:
+  - list
+  - get
+  - view
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - list
+  - get
+  - view
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: dev-has
+  name: api-exports-access
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: api-exports-access
+subjects:
+- kind: ServiceAccount
+  name: application-service-controller-manager
+  namespace: application-service

@@ -1,0 +1,19 @@
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIExport
+metadata:
+  name: has
+spec:
+  permissionClaims:
+  - group: ""
+    resource: "secrets"
+    verbs: ["get", "list", "watch"]
+  - group: ""
+    resource: "configmaps"
+    verbs: ["get", "list", "watch"]
+  - group: "route.openshift.io"
+    resource: "routes"
+    verbs: ["get", "list", "watch"]
+  latestResourceSchemas:
+  - application-service-v202208221503.applications.appstudio.redhat.com
+  - application-service-v202208221503.componentdetectionqueries.appstudio.redhat.com
+  - application-service-v202208221503.components.appstudio.redhat.com
