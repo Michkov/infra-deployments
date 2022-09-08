@@ -194,7 +194,7 @@ case $MODE in
           echo "environment variable CPS_KUBECONFIG must be set and point to kubeconfig of CPS"
           exit 1
         fi
-        KUBECONFIG=$KCP_KUBECONFIG kubectl config use kcp-stable-root
+        KUBECONFIG=$KCP_KUBECONFIG kubectl config use kcp-unstable-root
         $ROOT/hack/configure-kcp.sh -kn dev
         $ROOT/hack/preview.sh
         ;;
