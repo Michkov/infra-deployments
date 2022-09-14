@@ -15,7 +15,7 @@ spec:
       project: default
 
       source:
-        path: components/has
+        path: components/has/overlays/{{kcp-name}}
         repoURL: https://github.com/redhat-appstudio/infra-deployments.git
         targetRevision: main
 

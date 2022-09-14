@@ -1,0 +1,16 @@
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIBinding
+metadata:
+  name: pipeline-service
+spec:
+  reference:
+    workspace:
+      exportName: kubernetes
+      path: root:redhat-pipeline-service-compute
+  acceptedPermissionClaims:
+  - group: tekton.dev
+    resource: pipelineruns
+#    identityHash: 72b2990e51b1931e9fee86e67091b721a8c32f407d762fc847d9d2316a988b52
+  - group: tekton.dev
+    resource: pipelines
+#    identityHash: 72b2990e51b1931e9fee86e67091b721a8c32f407d762fc847d9d2316a988b52

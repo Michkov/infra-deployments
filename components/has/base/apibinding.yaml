@@ -1,0 +1,20 @@
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIBinding
+metadata:
+ name: has-binding
+spec:
+ reference:
+   workspace:
+     path: root:users:fy:gh:rh-sso-mkovarik-redhat-com:redhat-appstudio
+     exportName: application-service-has
+ acceptedPermissionClaims:
+     - group: ""
+       resource: "secrets"
+     - group: ""
+       resource: "configmaps"
+ #    - identityHash: 8a81e813aecb5da09d02de8a2c94aaf759cc272aed96146e55c86a5bbddf6954
+ #      group: "appstudio.redhat.com"
+ #      resource: "applications"
+ #    - identityHash: 8a81e813aecb5da09d02de8a2c94aaf759cc272aed96146e55c86a5bbddf6954
+ #      group: "appstudio.redhat.com"
+ #      resource: "components"
