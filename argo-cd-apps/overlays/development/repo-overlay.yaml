@@ -13,4 +13,4 @@ spec:
     spec:
       source:
         repoURL: https://github.com/Michkov/infra-deployments.git
-        targetRevision: preview-one-preview
+        targetRevision: preview-preview-one-preview
