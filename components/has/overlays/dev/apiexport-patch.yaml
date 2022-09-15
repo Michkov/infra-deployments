@@ -8,9 +8,9 @@ spec:
     resource: secrets
   - group: ""
     resource: configmaps
-  - identityHash: gitopsrvc-appstudio-shared
+  - identityHash: 49e203a6e7224a8e431f574cff006510b15775a4ecb1ac0ef721cefc9561b51d
     group: "appstudio.redhat.com"
     resource: "environments"
-  - identityHash: gitopsrvc-appstudio-shared
+  - identityHash: 49e203a6e7224a8e431f574cff006510b15775a4ecb1ac0ef721cefc9561b51d
     group: "appstudio.redhat.com"
     resource: "applicationsnapshotenvironmentbindings"
