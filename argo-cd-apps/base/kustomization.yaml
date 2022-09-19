@@ -3,6 +3,7 @@ resources:
 - authorization-in-kcp.yaml
 - application-api.yaml
 - application-service.yaml
+- jvm-build-service.yaml
 - spi.yaml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
