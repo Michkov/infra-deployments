@@ -13,7 +13,7 @@ spec:
     spec:
       source:
         repoURL: https://github.com/Michkov/infra-deployments.git
-        targetRevision: preview-SVPI-197
+        targetRevision: preview-preview-SVPI-197
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -30,4 +30,4 @@ spec:
     spec:
       source:
         repoURL: https://github.com/Michkov/infra-deployments.git
-        targetRevision: preview-SVPI-197
+        targetRevision: preview-preview-SVPI-197
