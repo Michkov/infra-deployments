@@ -1,0 +1,16 @@
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIExport
+metadata:
+  name: jvmbuildservice
+spec:
+  permissionClaims:
+    - group: ''
+      resource: secrets
+    - group: ''
+      resource: configmaps
+    - group: apps
+      identityHash: ccdf03efc27d344ef265071c1e6b751735cb1972a7b9f895b21afba280e7305c
+      resource: deployments
+    - group: tekton.dev
+      identityHash: 91cd3a1f3a92dee90728cf4e7181308891adbbc6ea9383acc22720f16a1fb273
+      resource: pipelineruns

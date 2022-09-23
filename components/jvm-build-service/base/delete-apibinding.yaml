@@ -1,0 +1,6 @@
+---
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIBinding
+metadata:
+  name: jvmbuildservice-binding
+$patch: delete

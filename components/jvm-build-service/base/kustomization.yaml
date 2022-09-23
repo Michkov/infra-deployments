@@ -1,10 +1,10 @@
 resources:
-- https://github.com/redhat-appstudio/jvm-build-service/deploy/kcp?ref=bc1ecfaf82f1edaef5b4d80e53d093e371048fb7
+- https://github.com/gabemontero/jvm-build-service/deploy/kcp?ref=a8e3c91d71a20e35965395db436279bc4d93daa5
 
 images:
 - name: hacbs-jvm-operator
-  newName: quay.io/redhat-appstudio/hacbs-jvm-controller
-  newTag: e927aa1b0dcd479ce0ad4f4a62a87b3b1b7dc423
+  newName: quay.io/redhat-appstudio/pull-request-builds
+  newTag: jvmcontroller-a8e3c91d71a20e35965395db436279bc4d93daa5
 
 namespace: jvm-build-service
 
@@ -17,6 +17,10 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 10m
+
+patchesStrategicMerge:
+- delete-cluster.yaml
+- delete-apibinding.yaml
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
