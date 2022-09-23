@@ -2,11 +2,16 @@
   {
     "op": "replace",
     "path": "/data/VAULTHOST",
-    "value": "https://vault-spi-vault.apps.appstudio-kcp.g2pi.p1.openshiftapps.com"
+    "value": "https://vault-spi-vault.apps.hacbs-build-01.hosted.upshift.rdu2.redhat.com"
   },
   {
     "op": "replace",
     "path": "/data/BASEURL",
-    "value": "https://spi-oauth-kcp-5ttoh8uv3y7i.apps.appstudio-kcp.g2pi.p1.openshiftapps.com"
+    "value": "https://spi-oauth-kcp-2jzwiyeqgc63.apps.hacbs-build-01.hosted.upshift.rdu2.redhat.com"
+  },
+  {
+    "op": "add",
+    "path": "/data/VAULTINSECURETLS",
+    "value": "true"
   }
 ]
