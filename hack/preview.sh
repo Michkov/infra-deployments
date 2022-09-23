@@ -116,6 +116,10 @@ while [ -n "$(oc get --kubeconfig ${CLUSTER_KUBECONFIG} applications.argoproj.io
   sleep 5
 done
 
+# Create customers workspace with bindings
+${ROOT}/hack/create-user-workspace.sh appstudio
+${ROOT}/hack/create-user-workspace.sh hacbs
+
 INTERVAL=10
 # Disabling check of healthy apps for now till envineronment is more stable
 while false; do
