@@ -12,8 +12,8 @@ spec:
   template:
     spec:
       source:
-        repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-        targetRevision: main
+        repoURL: https://github.com/Michkov/infra-deployments.git
+        targetRevision: preview-ec-apibinding
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -29,8 +29,8 @@ spec:
   template:
     spec:
       source:
-        repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-        targetRevision: main
+        repoURL: https://github.com/Michkov/infra-deployments.git
+        targetRevision: preview-ec-apibinding
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -46,9 +46,8 @@ spec:
   template:
     spec:
       source:
-        repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-        targetRevision: main
-
+        repoURL: https://github.com/Michkov/infra-deployments.git
+        targetRevision: preview-ec-apibinding
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -62,5 +61,5 @@ spec:
   template:
     spec:
       source:
-        repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-        targetRevision: main
+        repoURL: https://github.com/Michkov/infra-deployments.git
+        targetRevision: preview-ec-apibinding
