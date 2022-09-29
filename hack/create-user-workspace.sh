@@ -22,12 +22,8 @@ then
   export KUBECONFIG=${KCP_KUBECONFIG}
 fi
 
-echo "Accessing the home workspace:"
-kubectl ws '~'
-
-if [ "${ROOT_WORKSPACE}" == "~" ]; then
-  ROOT_WORKSPACE=$(kubectl ws . --short)
-fi
+echo "Accessing the root workspace:"
+kubectl ws $ROOT_WORKSPACE
 
 APPSTUDIO_SP_WORKSPACE=${APPSTUDIO_SP_WORKSPACE:-${ROOT_WORKSPACE}:${APPSTUDIO_WORKSPACE}}
 HACBS_SP_WORKSPACE=${HACBS_SP_WORKSPACE:-${ROOT_WORKSPACE}:${HACBS_WORKSPACE}}
