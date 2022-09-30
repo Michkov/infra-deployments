@@ -12,10 +12,10 @@ spec:
       resource: "events"
     - group: ""
       resource: "services"
-      identityHash: pipeline-service
+      identityHash: a8ed4d400ad91d890b07e9dcaa9d13fcbbb5d17c1e215ba11744f1580558b89c
     - group: "apps"
       resource: "deployments"
-      identityHash: pipeline-service
+      identityHash: a8ed4d400ad91d890b07e9dcaa9d13fcbbb5d17c1e215ba11744f1580558b89c
     - group: "tekton.dev"
       resource: "pipelineruns"
-      identityHash: pipeline-service
+      identityHash: a8ed4d400ad91d890b07e9dcaa9d13fcbbb5d17c1e215ba11744f1580558b89c
