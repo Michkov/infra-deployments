@@ -1,0 +1,16 @@
+---
+apiVersion: apis.kcp.dev/v1alpha1
+kind: APIBinding
+metadata:
+  name: jvm-build-service
+spec:
+  reference:
+    workspace:
+      exportName: jvm-build-service
+  permissionClaims:
+  - resource: secrets
+    state: Accepted
+  - resource: serviceaccounts
+    state: Accepted
+  - resource: events
+    state: Accepted
