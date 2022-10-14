@@ -1,5 +1,5 @@
 resources:
-- https://github.com/redhat-appstudio/integration-service/config/kcp?ref=ffcbd023df312f6d318543ac5b2bc69230666cc1
+- https://github.com/redhat-appstudio/integration-service/config/kcp?ref=f801ae435c16d28d77af1ded8427869a12ecc88a
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
