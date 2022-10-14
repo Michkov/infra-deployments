@@ -22,11 +22,11 @@ spec:
   - group: ""
     resource: events
   - group: ""
-    identityHash: pipeline-service
+    identityHash: 8d71e77aa58444b32eb21f331588c4a71af7db3c0a39a21b561f63c0c23f9115
     resource: services
   - group: apps
-    identityHash: pipeline-service
+    identityHash: 8d71e77aa58444b32eb21f331588c4a71af7db3c0a39a21b561f63c0c23f9115
     resource: deployments
   - group: tekton.dev
-    identityHash: pipeline-service
+    identityHash: 8d71e77aa58444b32eb21f331588c4a71af7db3c0a39a21b561f63c0c23f9115
     resource: pipelineruns
