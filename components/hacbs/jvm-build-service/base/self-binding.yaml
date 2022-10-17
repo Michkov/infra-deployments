@@ -8,12 +8,9 @@ spec:
     workspace:
       exportName: jvm-build-service
   permissionClaims:
-  - group: ""
-    resource: secrets
+  - resource: secrets
     state: Accepted
-  - group: ""
-    resource: serviceaccounts
+  - resource: serviceaccounts
     state: Accepted
-  - group: ""
-    resource: events
+  - resource: events
     state: Accepted
