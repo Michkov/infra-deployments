@@ -2,11 +2,16 @@
   {
     "op": "replace",
     "path": "/data/VAULTHOST",
-    "value": ""
+    "value": "https://vault-spi-vault.apps.mkovarik.lab.upshift.rdu2.redhat.com"
   },
   {
     "op": "replace",
     "path": "/data/BASEURL",
-    "value": ""
+    "value": "https://spi-oauth-kcp-1n9t5ghqkrml.apps.mkovarik.lab.upshift.rdu2.redhat.com"
+  },
+  {
+    "op": "add",
+    "path": "/data/VAULTINSECURETLS",
+    "value": "true"
   }
 ]
