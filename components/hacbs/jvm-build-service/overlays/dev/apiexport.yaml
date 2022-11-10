@@ -24,5 +24,5 @@ spec:
   - group: ""
     resource: resourcequotas
   - group: tekton.dev
-    identityHash: pipeline-service
+    identityHash: 804121ed28a85d0e021a97c00f32f5e56d101f5420242c33d3bb347033e38a06
     resource: pipelineruns
