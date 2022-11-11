@@ -63,6 +63,7 @@ if [ -n "$MY_GITHUB_ORG" ]; then
     $ROOT/hack/util-set-github-org $MY_GITHUB_ORG
 fi
 
+
 echo "start spi config"
 CLUSTER_URL_HOST=$(oc whoami --kubeconfig ${CLUSTER_KUBECONFIG} --show-console | sed 's|https://console-openshift-console.apps.||')
 if ! oc get namespace spi-system --kubeconfig ${KCP_KUBECONFIG} &>/dev/null; then
@@ -173,6 +174,10 @@ done
 while [ -n "$(oc get --kubeconfig ${CLUSTER_KUBECONFIG} applications.argoproj.io -n openshift-gitops -o jsonpath='{range .items[*]}{@.metadata.annotations.argocd\.argoproj\.io/refresh}{end}')" ]; do
   sleep 5
 done
+
+# Set build service secrets
+KUBECONFIG=${KCP_KUBECONFIG} kubectl ws ${ROOT_WORKSPACE}:${APPSTUDIO_WORKSPACE}
+$ROOT/hack/build/setup-build-service.sh
 
 # Create customers workspace with bindings
 USER_WORKSPACE=${USER_APPSTUDIO_WORKSPACE-"appstudio"} ${ROOT}/hack/create-user-workspace.sh appstudio
