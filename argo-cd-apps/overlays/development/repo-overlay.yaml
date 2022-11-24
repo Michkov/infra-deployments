@@ -1,26 +1,3 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: gitops
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: has
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -29,96 +6,19 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: release
+  name: authentication
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: integration
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: spi
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: e2e-tests
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cluster-registration
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: quality-dashboard
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: enterprise-contract
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: hac-pact-broker
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -128,30 +28,8 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: jvm-build-service
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: pipeline-service
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -161,8 +39,140 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-registration
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: e2e-tests
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: enterprise-contract
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hac-pact-broker
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: has
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: integration
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jvm-build-service
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-workload-in-cluster
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pipeline-service
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quality-dashboard
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: release
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -172,5 +182,16 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    repoURL: https://github.com/redhat-appstudio/infra-deployments.git
-    targetRevision: main
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spi
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    repoURL: https://github.com/Michkov/infra-deployments.git
+    targetRevision: preview-preview-improvements
