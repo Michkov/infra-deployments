@@ -3,6 +3,8 @@
 PAC_NAMESPACE='openshift-pipelines'
 PAC_SECRET_NAME='pipelines-as-code-secret'
 
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"/../..
+
 setup-pac-app() (
         # Inspired by implementation by Will Haley at:
         #   http://willhaley.com/blog/generate-jwt-with-bash/
@@ -47,27 +49,27 @@ setup-pac-app() (
         }
         payload="{ \"iss\": $PAC_GITHUB_APP_ID, \"iat\": ${now}, \"exp\": $((now+10)) }"
 
-        webhook_secret=$(openssl rand -hex 20)
-
-        if ! oc get -n $PAC_NAMESPACE secret $PAC_SECRET_NAME &>/dev/null; then
-                token=$(sign rs256 "$payload" "$(echo "$PAC_GITHUB_APP_PRIVATE_KEY" | base64 -d)")
-                pac_host=$(oc get -n $PAC_NAMESPACE route pipelines-as-code-controller -o go-template="{{ .spec.host }}")
-                curl \
-                -X PATCH \
-                -H "Accept: application/vnd.github.v3+json" \
-                -H "Authorization: Bearer $token" \
-                https://api.github.com/app/hook/config \
-                -d "{\"content_type\":\"json\",\"insecure_ssl\":\"1\",\"secret\":\"$webhook_secret\",\"url\":\"https://$pac_host\"}" &>/dev/null
-        fi
-
-        echo $webhook_secret
+        webhook_secret="$1"
+        token=$(sign rs256 "$payload" "$(echo "$PAC_GITHUB_APP_PRIVATE_KEY" | base64 -d)")
+        sprayproxy_host=$(kubectl get -n sprayproxy -o template --template="{{.spec.host}}" route/sprayproxy-route)
+        curl \
+        -X PATCH \
+        -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: Bearer $token" \
+        https://api.github.com/app/hook/config \
+        -d "{\"content_type\":\"json\",\"insecure_ssl\":\"1\",\"secret\":\"$webhook_secret\",\"url\":\"https://${sprayproxy_host}/proxy\"}" &>/dev/null
 )
 
 if [ -n "${PAC_GITHUB_APP_ID}" ] && [ -n "${PAC_GITHUB_APP_PRIVATE_KEY}" ]; then
         if [ -n "${PAC_GITHUB_APP_WEBHOOK_SECRET}" ]; then
                 WEBHOOK_SECRET="$PAC_GITHUB_APP_WEBHOOK_SECRET"
         else
-                WEBHOOK_SECRET=$(setup-pac-app)
+                WEBHOOK_SECRET=$(openssl rand -hex 20)
+                export WEBHOOK_SECRET
+                # Deploy sprayproxy on the cluster
+                "$ROOT"/hack/deploy-sprayproxy.sh
+                
+                setup-pac-app "$WEBHOOK_SECRET"
         fi
         GITHUB_APP_PRIVATE_KEY=$(echo "$PAC_GITHUB_APP_PRIVATE_KEY" | base64 -d)
         GITHUB_APP_DATA="--from-literal github-private-key='$GITHUB_APP_PRIVATE_KEY' --from-literal github-application-id='${PAC_GITHUB_APP_ID}' --from-literal webhook.secret='$WEBHOOK_SECRET'"                
