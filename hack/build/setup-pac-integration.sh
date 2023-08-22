@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+set -x 
 
 PAC_NAMESPACE='openshift-pipelines'
 PAC_SECRET_NAME='pipelines-as-code-secret'
+SPRAYPROXY_NAMESPACE='sprayproxy'
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"/../..
 
@@ -49,8 +51,13 @@ setup-pac-app() (
         }
         payload="{ \"iss\": $PAC_GITHUB_APP_ID, \"iat\": ${now}, \"exp\": $((now+10)) }"
 
-        webhook_secret="$1"
+        webhook_secret=$(openssl rand -hex 20)
         token=$(sign rs256 "$payload" "$(echo "$PAC_GITHUB_APP_PRIVATE_KEY" | base64 -d)")
+        # return  sprayproxy host in a loop until it is available
+        while ! kubectl get -n sprayproxy route/sprayproxy-route &>/dev/null; do
+                echo "Waiting for sprayproxy route to be available"
+                sleep 1
+        done
         sprayproxy_host=$(kubectl get -n sprayproxy -o template --template="{{.spec.host}}" route/sprayproxy-route)
         curl \
         -X PATCH \
@@ -58,18 +65,15 @@ setup-pac-app() (
         -H "Authorization: Bearer $token" \
         https://api.github.com/app/hook/config \
         -d "{\"content_type\":\"json\",\"insecure_ssl\":\"1\",\"secret\":\"$webhook_secret\",\"url\":\"https://${sprayproxy_host}/proxy\"}" &>/dev/null
+
+        echo "$webhook_secret"
 )
 
 if [ -n "${PAC_GITHUB_APP_ID}" ] && [ -n "${PAC_GITHUB_APP_PRIVATE_KEY}" ]; then
         if [ -n "${PAC_GITHUB_APP_WEBHOOK_SECRET}" ]; then
                 WEBHOOK_SECRET="$PAC_GITHUB_APP_WEBHOOK_SECRET"
         else
-                WEBHOOK_SECRET=$(openssl rand -hex 20)
-                export WEBHOOK_SECRET
-                # Deploy sprayproxy on the cluster
-                "$ROOT"/hack/deploy-sprayproxy.sh
-                
-                setup-pac-app "$WEBHOOK_SECRET"
+                WEBHOOK_SECRET=$(setup-pac-app)
         fi
         GITHUB_APP_PRIVATE_KEY=$(echo "$PAC_GITHUB_APP_PRIVATE_KEY" | base64 -d)
         GITHUB_APP_DATA="--from-literal github-private-key='$GITHUB_APP_PRIVATE_KEY' --from-literal github-application-id='${PAC_GITHUB_APP_ID}' --from-literal webhook.secret='$WEBHOOK_SECRET'"                
@@ -92,4 +96,6 @@ oc create namespace -o yaml --dry-run=client build-service | oc apply -f-
 
 eval "oc -n '$PAC_NAMESPACE' create secret generic '$PAC_SECRET_NAME' $GITHUB_APP_DATA $GITHUB_WEBHOOK_DATA $GITLAB_WEBHOOK_DATA -o yaml --dry-run=client" | oc apply -f-
 eval "oc -n build-service create secret generic '$PAC_SECRET_NAME' $GITHUB_APP_DATA $GITHUB_WEBHOOK_DATA $GITLAB_WEBHOOK_DATA -o yaml --dry-run=client" | oc apply -f-
+
+eval "oc -n '$SPRAYPROXY_NAMESPACE' create secret generic '$PAC_SECRET_NAME' $GITHUB_APP_DATA $GITHUB_WEBHOOK_DATA $GITLAB_WEBHOOK_DATA -o yaml --dry-run=client" | oc apply -f-
 echo "Configured ${PAC_SECRET_NAME} secret in ${PAC_NAMESPACE} namespace"

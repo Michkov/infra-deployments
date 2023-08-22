@@ -1,0 +1,7 @@
+---
+$patch: delete
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: sprayproxy
+  namespace: sprayproxy

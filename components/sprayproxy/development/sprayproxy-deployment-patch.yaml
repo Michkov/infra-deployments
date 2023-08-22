@@ -1,0 +1,18 @@
+---
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value:
+    name: SPRAYPROXY_SERVER_INSECURE_SKIP_TLS_VERIFY
+    value: "true"
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value:
+    name: SPRAYPROXY_SERVER_ENABLE_DYNAMIC_BACKENDS
+    value: "true"
+
+# remvoe GH_APP_WEBHOOK_SECRET variable
+- op: remove
+  path: /spec/template/spec/containers/0/env/1
+# remove kube-rbac-metrics container
+- op: remove
+  path: /spec/template/spec/containers/2
